@@ -1,0 +1,28 @@
+{
+  "name": "Go Quiz API Development Container",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "go-dev",
+  "workspaceFolder": "/workspace",
+  "customizations": {
+    "vscode": {
+      "extensions": ["golang.go", "GitHub.copilot", "GitHub.copilot-chat"]
+    }
+  },
+  "forwardPorts": [8080, 3009],
+  "portsAttributes": {
+    "8080": {
+      "label": "Go API Server",
+      "elevateIfNeeded": true,
+      "requireLocalPort": true,
+      "onAutoForward": "silent"
+    },
+    "3009": {
+      "label": "Wilco Agent",
+      "elevateIfNeeded": true,
+      "requireLocalPort": true,
+      "onAutoForward": "silent"
+    }
+  },
+  "postCreateCommand": ".devcontainer/setup.sh",
+  "remoteUser": "vscode"
+}
