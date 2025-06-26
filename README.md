@@ -1,0 +1,1 @@
+# empty-starter-go
