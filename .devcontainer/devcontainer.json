@@ -2,7 +2,7 @@
   "name": "Go Quiz API Development Container",
   "dockerComposeFile": "docker-compose.yml",
   "service": "go-dev",
-  "workspaceFolder": "/workspace",
+  "workspaceFolder": "/workspace/empty-starter-go",
   "customizations": {
     "vscode": {
       "extensions": ["golang.go", "GitHub.copilot", "GitHub.copilot-chat"]
@@ -23,6 +23,6 @@
       "onAutoForward": "silent"
     }
   },
-  "postCreateCommand": ".devcontainer/setup.sh",
+  "postCreateCommand": ".devcontainer/setup.sh && .devcontainer/install-docker.sh",
   "remoteUser": "vscode"
 }

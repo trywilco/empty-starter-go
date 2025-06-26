@@ -10,10 +10,11 @@ services:
     working_dir: /workspace
     ports:
       - "8080:8080"
+      - "2222:22"
     depends_on:
       - wilco-agent
       - postgres
-    command: sleep infinity
+    command: bash -c "apt-get update && apt-get install -y openssh-server && mkdir -p /var/run/sshd && echo 'root:password' | chpasswd && echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config && echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config && service ssh start && sleep infinity"
     environment:
       - DB_HOST=postgres
       - DB_PORT=5432
@@ -26,10 +27,11 @@ services:
     container_name: wilco-agent
     ports:
       - "3009:3009"
+      - "2223:22"
     volumes:
       - ../..:/workspace:cached
     working_dir: /workspace
-    command: bash -c "cd /wilco-agent && node agent.js"
+    command: bash -c "apt-get update && apt-get install -y openssh-server && mkdir -p /var/run/sshd && echo 'root:password' | chpasswd && echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config && echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config && service ssh start && cd /wilco-agent && node agent.js 2>&1 | tee /workspace/wilco-agent.log &"
     environment:
       - ENGINE_BASE_URL=${ENGINE_BASE_URL}
       - GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN=${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}
@@ -47,7 +49,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U quiz_user -d quiz_db"]
+      test: [ "CMD-SHELL", "pg_isready -U quiz_user -d quiz_db" ]
       interval: 10s
       timeout: 5s
       retries: 5
