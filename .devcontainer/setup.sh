@@ -25,9 +25,20 @@ if [ ! -f "go.mod" ]; then
     go mod init go-quiz-api
 fi
 
+# Ensure Go bin is in PATH
+echo "🔧 Configuring Go PATH..."
+if ! grep -q 'export PATH="$PATH:$HOME/go/bin"' ~/.bashrc; then
+    echo 'export PATH="$PATH:$HOME/go/bin"' >> ~/.bashrc
+fi
+export PATH="$PATH:$HOME/go/bin"
+
 # Install Air for hot reloading
 echo "🔄 Installing Air for hot reloading..."
-go install github.com/cosmtrek/air@latest
+go install github.com/air-verse/air@latest
+
+# Download dependencies and create go.sum
+echo "📦 Downloading Go dependencies..."
+go mod tidy
 
 # Configure Codespace ports (if in Codespaces)
 if [ "$CODESPACE_NAME" ]; then
