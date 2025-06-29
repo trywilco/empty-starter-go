@@ -1,7 +1,7 @@
 {
   "name": "Go Quiz API Development Container",
   "dockerComposeFile": "docker-compose.yml",
-  "service": "wilco-agent",
+  "service": "go-dev",
   "workspaceFolder": "/workspace/empty-starter-go",
   "customizations": {
     "vscode": {
