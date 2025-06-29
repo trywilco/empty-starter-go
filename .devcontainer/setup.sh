@@ -19,12 +19,6 @@ if [ -f "/workspaces/.wilco" ]; then
     fi
 fi
 
-# Start the Wilco agent silently in the background
-cd /opt/wilco-agent
-touch /var/log/wilco-agent.log
-chmod 644 /var/log/wilco-agent.log
-nohup node agent.js >> /var/log/wilco-agent.log 2>&1 &
-
 # Initialize Go module if it doesn't exist
 if [ ! -f "go.mod" ]; then
     echo "📦 Initializing Go module..."
@@ -38,7 +32,6 @@ go install github.com/cosmtrek/air@latest
 # Configure Codespace ports (if in Codespaces)
 if [ "$CODESPACE_NAME" ]; then
     gh codespace ports visibility 8080:public --codespace $CODESPACE_NAME 2>/dev/null || true
-    gh codespace ports visibility 3009:public --codespace $CODESPACE_NAME 2>/dev/null || true
 fi
 
 # Add helpful aliases for Go development
@@ -48,7 +41,7 @@ echo "alias go-test='go test ./...'" >> ~/.bashrc
 echo "alias go-mod='go mod'" >> ~/.bashrc
 
 # Welcome message
-echo "printf \"\n🐹 Go Development Ready! Database running. Use GitHub Copilot Agent Mode!\n\"" >> ~/.bashrc
+echo "printf \"\n🐹 Go Development Ready! Use GitHub Copilot for assistance!\n\"" >> ~/.bashrc
 echo "printf \"💡 Use 'go-run' to start with hot reload\n\"" >> ~/.bashrc
 
 echo "✅ Setup complete!"

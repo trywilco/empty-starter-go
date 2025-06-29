@@ -1,30 +1,22 @@
 {
-  "name": "Go Quiz API Development Container",
-  "image": "public.ecr.aws/v0a2l7y2/wilco/wilco-devcontainer:latest",
+  "name": "Go Development Container",
+  "image": "mcr.microsoft.com/devcontainers/go:1-1.24-bookworm",
   "features": {
-    "ghcr.io/devcontainers/features/go:1": {},
     "ghcr.io/devcontainers/features/github-cli:1": {}
   },
-  "forwardPorts": [8080, 3009],
+  "forwardPorts": [8080],
   "portsAttributes": {
     "8080": {
       "label": "Go API Server",
       "elevateIfNeeded": true,
       "requireLocalPort": true,
       "onAutoForward": "silent"
-    },
-    "3009": {
-      "label": "Wilco Agent",
-      "elevateIfNeeded": true,
-      "requireLocalPort": true,
-      "onAutoForward": "silent"
     }
   },
-  "postStartCommand": "bash -c .devcontainer/setup.sh",
+  "postCreateCommand": "bash .devcontainer/setup.sh",
   "customizations": {
     "vscode": {
       "extensions": ["golang.go", "GitHub.copilot", "GitHub.copilot-chat"]
     }
-  },
-  "remoteUser": "vscode"
+  }
 }
