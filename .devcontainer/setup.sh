@@ -22,37 +22,29 @@ fi
 # Initialize Go module if it doesn't exist
 if [ ! -f "go.mod" ]; then
     echo "📦 Initializing Go module..."
-    go mod init go-quiz-api
+    go mod init go-api
 fi
-
-# Ensure Go bin is in PATH
-echo "🔧 Configuring Go PATH..."
-if ! grep -q 'export PATH="$PATH:$HOME/go/bin"' ~/.bashrc; then
-    echo 'export PATH="$PATH:$HOME/go/bin"' >> ~/.bashrc
-fi
-export PATH="$PATH:$HOME/go/bin"
 
 # Install Air for hot reloading
 echo "🔄 Installing Air for hot reloading..."
 go install github.com/air-verse/air@latest
 
-# Download dependencies and create go.sum
+# Download dependencies
 echo "📦 Downloading Go dependencies..."
 go mod tidy
+
+# Install and configure PostgreSQL
+echo "🐘 Installing and configuring PostgreSQL..."
+sudo apt-get update -qq
+sudo apt-get install -y postgresql postgresql-contrib
+
+# Start PostgreSQL service
+sudo service postgresql start
 
 # Configure Codespace ports (if in Codespaces)
 if [ "$CODESPACE_NAME" ]; then
     gh codespace ports visibility 8080:public --codespace $CODESPACE_NAME 2>/dev/null || true
+    gh codespace ports visibility 5432:private --codespace $CODESPACE_NAME 2>/dev/null || true
 fi
-
-# Add helpful aliases for Go development
-echo "alias go-run='air'" >> ~/.bashrc
-echo "alias go-build='go build .'" >> ~/.bashrc
-echo "alias go-test='go test ./...'" >> ~/.bashrc
-echo "alias go-mod='go mod'" >> ~/.bashrc
-
-# Welcome message
-echo "printf \"\n🐹 Go Development Ready! Use GitHub Copilot for assistance!\n\"" >> ~/.bashrc
-echo "printf \"💡 Use 'go-run' to start with hot reload\n\"" >> ~/.bashrc
 
 echo "✅ Setup complete!"
