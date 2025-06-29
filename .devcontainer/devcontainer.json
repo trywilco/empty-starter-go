@@ -25,6 +25,5 @@
     "vscode": {
       "extensions": ["golang.go", "GitHub.copilot", "GitHub.copilot-chat"]
     }
-  },
-  "remoteUser": "vscode"
+  }
 }
